@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Salsa&display=swap');
+.font-roboto{
+    font-family: 'Roboto', sans-serif;
+}
+.salsa{
+    font-family: 'Salsa', cursive;
+}
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+@function theme-color($opacity:1){
+    @return rgba(255,77,77, $opacity);
+}
+
+:root{
+    --theme-color: #FF4D4D;
+    --theme-red-dark: #D40000;
+    --theme-orange: #FF76C0;
+    --theme-orange-light: #D20000;
+    --theme-color-input: rgba(196,196,196, 0.37);
+}
+
+.theme-input{
+    background-color: theme-color(0.12);
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.bg-theme-light{
+    background-color: theme-color(0.1);
+}
+
+.bg-theme-color{
+    background-color: var(--theme-color);
+}
+
+.text-theme-color{
+    color: var(--theme-color);
+}
+
+.poppins{
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-rounded{
+    @apply p-2 px-5 bg-orange-600 hover:bg-orange-700 transition-all duration-200 hover:shadow-lg shadow-orange-600 text-white rounded-full;
+}
+
+.home{
+    height: 27rem;
+}
+
+#home_background{
+    position: fixed !important;
+    top: 51px;
+    left: -19px;
+    z-index: -38;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(1.18);
+}
