@@ -7,28 +7,30 @@ export const UserContext = createContext();
 export const UserState = props => {
     const [loggedin, setLoggedin] = useState(false);
     const [user, setUser] = useState({});
+    const [authToken, setAuthToken] = useState("");
 
 
     useEffect(() => {
-      const auth_token = localStorage.getItem("auth_token");
+        const auth_token = localStorage.getItem("auth_token");
+        setAuthToken(auth_token);
+        if (auth_token !== null) {
+            axios.get(url(`/api/user/get_by_auth_token/?auth_token=${auth_token}`))
+                .then(res => {
+                    setUser(res.data);
+                    setLoggedin(true);
+                })
+                .catch(res => "");
+        };
 
-      if (auth_token !== null){
-        axios.get(url(`/api/user/get_by_auth_token/?auth_token=${auth_token}`))
-        .then(res => {
-            setUser(res.data);
-            setLoggedin(true);
-        })
-        .catch(res => "");
-      };
-    
     }, []);
-    
+
     return <UserContext.Provider value={
         {
             user,
             setUser,
             loggedin,
             setLoggedin,
+            authToken,
         }
     }>
         {props.children}

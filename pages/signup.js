@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 const signup = () => {
     const [errors, setErrors] = useState([]);
+    const [creatingAccount, setCreatingAccount] = useState(false);
     const [accountCreated, setAccountCreated] = useState(false);
     const formFields = [
         { title: "First name", placeholder: "Enter your first name", id: "first_name" },
@@ -19,14 +20,17 @@ const signup = () => {
 
     const createAccount = async e => {
         e.preventDefault();
-
+        setCreatingAccount(true);
         const res = await axios.post(url("/api/user/create/"), new FormData(e.target)).catch(error => {
             const errors = error.response.data;
             setErrors(errors);
+            setCreatingAccount(false);
         });
 
         if (res !== undefined){
             setAccountCreated(true);
+            setCreatingAccount(false);
+
         }
     }
 
@@ -64,7 +68,7 @@ const signup = () => {
 
 
 
-                        <button type='submit' className='transition-all duration-200 hover:contrast-150 bg-theme-color text-white py-2 shadow-md rounded-full'>Sign up</button>
+                        <button type='submit' className='transition-all duration-200 hover:contrast-150 bg-theme-color text-white py-2 shadow-md rounded-full' disabled={creatingAccount}>Sign up {creatingAccount===true?<i className="fa fa-spinner fa-spin"></i>:""}</button>
 
                         <p className='text-sm text-center text-gray-500'>Aleready have an account? <Link href="/login"><a className="text-theme-color">Login</a></Link></p>
 
