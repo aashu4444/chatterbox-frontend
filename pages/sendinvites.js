@@ -24,6 +24,7 @@ const sendinvites = () => {
     };
 
     const sendInvite = async user => {
+        console.log(authToken)
         const res = await axios.post(url("/api/invite/send/"), { target_user_id: user.pk }, {
             headers: {
                 "auth-token": authToken,
@@ -34,32 +35,19 @@ const sendinvites = () => {
     };
 
 
-    // A function that returns true if the loggedin user aleready sent a invite to given user.
-    const isInvited = async (user) => {
-        const res = await axios.get(url(`/api/invite/isInvited?target_user_id=${user.pk}`), {
-            headers: {
-                "auth-token": authToken,
-            }
-        });
-
-        return res.data;
-
-    }
-
     const searchPeoples = async e => {
         e.preventDefault();
 
         const query = e.target.querySelector("#query").value;
 
         setSearching(true);
-        const res = await axios.get(url(`/api/user/search/?query=${query}`));
-        const found = await res.data.map(async item => {
-            const is_Invited = await isInvited(item);
-            return { ...item, is_Invited }
+        const res = await axios.get(url(`/api/user/search/?query=${query}&addIsInvited=1`), {
+            headers: {
+                "auth-token":authToken,
+            }
         });
 
         setSearching(false);
-        console.log(found)
 
         setFoundPeoples([]);
 

@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import chat from '../images/chat.png';
 import styles from "../styles/Home.module.css";
-import background from "../images/background.svg";
+import background from "../images/Background.svg";
 import { loggedin } from '../components/Globals';
 import { useRouter } from 'next/router';
 import {useEffect, useContext} from 'react';
