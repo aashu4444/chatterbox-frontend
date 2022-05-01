@@ -9,6 +9,7 @@ const sendinvites = () => {
     const [searching, setSearching] = useState(false);
     const [foundPeoples, setFoundPeoples] = useState([]);
     const { authToken } = useContext(UserContext);
+    const [sendingInvite, setsendingInvite] = useState(true);
     const user = {
         "model": "main_user.main_user",
         "pk": 4,
@@ -24,14 +25,13 @@ const sendinvites = () => {
     };
 
     const sendInvite = async user => {
-        console.log(authToken)
         const res = await axios.post(url("/api/invite/send/"), { target_user_id: user.pk }, {
             headers: {
                 "auth-token": authToken,
             }
         });
 
-        console.log(res);
+        setFoundPeoples(foundPeoples.map(item => item.pk===user.pk?{...item, isInvited:true}:item))
     };
 
 
@@ -43,15 +43,33 @@ const sendinvites = () => {
         setSearching(true);
         const res = await axios.get(url(`/api/user/search/?query=${query}&addIsInvited=1`), {
             headers: {
+                "auth-token": authToken,
+            }
+        });
+
+        console.log(res.data)
+
+
+        setSearching(false);
+
+        setFoundPeoples(res.data);
+
+    };
+
+    const cancelInvite = async user => {
+        const res = await axios.delete(url('/api/invite/cancel/'), {
+            data: {
+                target_user_id: user.pk,
+            },
+            headers: {
                 "auth-token":authToken,
             }
         });
 
-        setSearching(false);
+        setFoundPeoples(foundPeoples.map(item => item.pk===user.pk?{...item, isInvited:false}:item))
 
-        setFoundPeoples([]);
+    }
 
-    };
 
 
     return (
@@ -68,13 +86,18 @@ const sendinvites = () => {
 
                 <div className="results">
                     {foundPeoples.map((item, key) =>
-                        <div className="shadow p-3 rounded-md mx-10 flex gap-x-3" key={key}>
-                            <img src={url(`/media/${item.fields.profile_image}`)} alt={`${item.first_name} ${item.last_name}'s profile picture`} className={`rounded-full w-8 h-8`} />
+                        <div className="shadow p-3 rounded-md md:mx-10 mt-4 flex gap-x-3" key={key}>
+                            <img src={url(`/media/${item.profile_image}`)} alt={`${item.first_name} ${item.last_name}'s profile picture`} className={`rounded-full w-8 h-8`} />
                             <div className="flex flex-col">
-                                {item.fields.user.first_name} {item.fields.user.last_name}
-                                <p className='text-sm text-gray-400'>{item.fields.user.username}</p>
+                                {item.first_name} {item.last_name}
+                                <p className='text-sm text-gray-400'>{item.username}</p>
                             </div>
-                            <button className="btn ml-auto">Send</button>
+
+                            {item.isInvited === true ?
+                                <button className="btn ml-auto" onClick={e => cancelInvite(item)}>Cancel invite</button>
+                                :
+                                <button className="btn ml-auto"  onClick={e => sendInvite(item)}>Send invite</button>
+                            }
                         </div>
 
 
@@ -84,6 +107,8 @@ const sendinvites = () => {
 
                     {foundPeoples.length === 0 && <center className="mt-5"><p>Enter your query in above search box to search peoples on {config.site_name}</p></center>}
                 </div>
+
+
             </div>
         </>
     )

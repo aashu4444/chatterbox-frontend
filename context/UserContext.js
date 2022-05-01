@@ -13,7 +13,7 @@ export const UserState = props => {
     useEffect(() => {
         const auth_token = localStorage.getItem("auth_token");
         setAuthToken(auth_token);
-        if (auth_token !== null || auth_tokne!=="" || auth_token !== undefined) {
+        if (auth_token !== null || auth_token!=="" || auth_token !== undefined) {
             axios.get(url(`/api/user/get_by_auth_token/?auth_token=${auth_token}`))
                 .then(res => {
                     setUser(res.data);
