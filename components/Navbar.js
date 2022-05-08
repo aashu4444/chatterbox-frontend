@@ -13,8 +13,9 @@ const Navbar = () => {
         <div className='p-4 bg-white px-4 flex shadow-md justify-between h-auto items-center'>
             <h2 className='poppins font-semibold text-2xl'>ChatterBox</h2>
             <ul className='flex gap-x-4 font-semibold text-slate-500 items-center'>
-                <li>
+                <li className='flex gap-x-2'>
                     <Link href="/"><a>Home</a></Link>
+                    <Link href="/messages"><a>Messages</a></Link>
                 </li>
                 {loggedin === false ?
                     <>

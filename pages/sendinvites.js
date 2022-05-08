@@ -46,13 +46,14 @@ const sendinvites = () => {
                 "auth-token": authToken,
             }
         });
+        const users = res.data.map(item => typeof item === "string"?JSON.parse(item):item);
 
-        console.log(res.data)
+        console.log(users)
 
 
         setSearching(false);
 
-        setFoundPeoples(res.data);
+        setFoundPeoples(users);
 
     };
 

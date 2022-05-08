@@ -35,10 +35,25 @@ const Invitespanel = () => {
         }
     }
 
+
+    const acceptInvite = async (user) => {
+        console.log(user.fields.sender)
+        const res = await axios.put(url("/api/invite/accept/"), {
+            target_user_id: user.fields.sender.main_user_id
+
+        }, {
+            headers: {
+                "auth-token":authToken,
+            }
+        });
+
+        console.log(res.data, );
+    }
+
     useEffect(() => {
-      getInvites();
+        getInvites();
     }, []);
-    
+
     return (
         <div className='w-96 shadow-md rounded-md shadow-slate-300'>
             <header className='flex justify-between p-4 bg-slate-300 rounded-md'>
@@ -60,25 +75,25 @@ const Invitespanel = () => {
 
                 <div>
                     {invitesType === "sent" ?
-                        sentInvites.map((item, key) => <p>A Sent Invite available</p>)  
-                    :
-                    recievedInvites.map((item, key) => 
-                    <div className='grid grid-cols-3 gap-x-3 shadow-md rounded-md p-3'>
-                        
-                        <div className="w-10 h-10 rounded-full bg-slate-600"></div>
+                        sentInvites.map((item, key) => <p>A Sent Invite available</p>)
+                        :
+                        recievedInvites.map((item, key) =>
+                            <div className='flex gap-x-3 shadow-md rounded-md p-3' key={key}>
 
-                        <div>
-                            <p>{item.fields.reciever.first_name} {item.fields.reciever.last_name}</p>
-                            <p className='text-sm text-gray-300'>Some small to edit later</p>
-                        </div>
+                                <div className="w-10 h-10 rounded-full bg-slate-600"></div>
 
-                        <div>
-                            <button className="btn mx-2">A</button>
-                            <button className="btn mx-2">D</button>
-                        </div>
-                    </div>) 
-                
-                }
+                                <div className='grow text-sm'>
+                                    <p>{item.fields.sender.first_name} {item.fields.sender.last_name}</p>
+                                    <p className='text-sm text-gray-300'>Some small to edit later</p>
+                                </div>
+
+                                <div className='flex'>
+                                    <button className="btn" onClick={e => acceptInvite(item)}>A</button>
+                                    <button className="btn ml-2">D</button>
+                                </div>
+                            </div>)
+
+                    }
                 </div>
 
             </div>

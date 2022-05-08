@@ -10,7 +10,7 @@ const ProfilePhoto = (props) => {
     delete props_copy['className'];
 
     return (
-        <img src={url(`/media/${user.profile_image}`)} alt={`${user.first_name} ${user.last_name}'s profile picture`} className={`rounded-full w-8 h-8 ${props.className}`} {...props_copy}/>
+        <img src={url(`/media/profile_images/${user.profile_image}`)} alt={`${user.first_name} ${user.last_name}'s profile picture`} className={`rounded-full w-8 h-8 ${props.className}`} {...props_copy}/>
     )
 }
 
