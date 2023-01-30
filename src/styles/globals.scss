@@ -10,3 +10,7 @@
 .dark-btn-bg{
     @apply dark:bg-gray-900;
 }
+
+.input{
+    @apply dark:bg-gray-900/50  dark:outline-none dark:border-none dark:text-white;
+}
