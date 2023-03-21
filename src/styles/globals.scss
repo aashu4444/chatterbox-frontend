@@ -11,6 +11,14 @@
     @apply dark:bg-gray-900;
 }
 
+.sensitiveDiv{
+    @apply dark:bg-gray-800/30 bg-blue-500 text-white;
+}
+
+.btn{
+    @apply transition-all duration-100 dark:bg-gray-800 dark:hover:bg-gray-900 bg-gray-300 hover:bg-gray-400;
+}
+
 .input{
     @apply dark:bg-gray-900/50  dark:outline-none dark:border-none dark:text-white;
 }
