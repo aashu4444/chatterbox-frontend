@@ -1,6 +1,21 @@
+import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import axios from 'axios';
+import { url } from '@/baseObjs';
+import Alert from '@/components/alert';
 
 export default function Login() {
+  const [invalidCreds, setInvalidCreds] = useState(false);
+
+  const handleLogin = async e => {
+    try {
+      res = await axios.post(url("/user/create"));
+
+    } catch (error) {
+      setInvalidCreds(true);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -16,7 +31,13 @@ export default function Login() {
               Sign in to your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+
+          {/* Show message if credentials are incorrect */}
+          <Alert type="warning">
+            Incorrect username or password!
+          </Alert>
+
+          <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleLogin}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
@@ -72,7 +93,7 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="group relative flex w-full justify-center rounded-md border border-transparent btn py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 </span>

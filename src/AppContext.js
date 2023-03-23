@@ -15,7 +15,7 @@ export function AppWrapper(props) {
 
     useEffect(() => {
         const handleRouterChangeStart = (url) => {
-            barRef.current.staticStart();
+            barRef.current.continuousStart();
         };
 
         router.events.on('routeChangeStart', handleRouterChangeStart);

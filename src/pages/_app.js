@@ -1,4 +1,5 @@
 import '@/styles/globals.scss';
+import '@/styles/utils.scss';
 import { ThemeProvider } from "next-themes";
 import { useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';

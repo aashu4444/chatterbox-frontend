@@ -1,5 +1,6 @@
 import LeftPanel from "@/components/messages/leftPanel";
 import Navbar from "@/components/Navbar";
+import MessagePanel from "@/components/messages/messagePanel";
 
 export default function Messages() {
     return (
@@ -7,7 +8,7 @@ export default function Messages() {
             <Navbar />
             <section id="messages" className="flex w-full h-full grow">
                 <LeftPanel />
-
+                <MessagePanel />
             </section>
         </section>
     )
