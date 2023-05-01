@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
-const Alert = ({ type, children }) => {
+const Alert = ({ type, cls, children }) => {
 
     const alertThemes = {
         warning: {
@@ -18,14 +18,19 @@ const Alert = ({ type, children }) => {
 
     }
 
-    const {icon, iconColor, msgColor} = alertThemes[type];
+    const { icon, iconColor, msgColor } = alertThemes[type];
 
     return (
         <>
-            <div className={`alert ${iconColor}`}>
-                <FontAwesomeIcon icon={icon} className="alert-icon" />
-                <span className={`msg ${msgColor}`}>{children}
-                </span>
+            <div className={`alert ${msgColor} ${cls}`}>
+
+                <div className={`alert-icon ${iconColor}`}>
+
+                    <FontAwesomeIcon icon={icon}  />
+                </div>
+
+                <p className={`msg flex-wrap`}>{children}
+                </p>
             </div>
         </>
     )

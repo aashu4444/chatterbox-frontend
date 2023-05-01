@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.alert{
+    @apply flex w-auto rounded-lg overflow-hidden;
+
+    .alert-icon{
+        @apply p-3 flex items-center;
+    }
+
+    .msg{
+        @apply  p-3;
+    }
+}
+
 .smooth{
     @apply transition-all duration-200;
 }
