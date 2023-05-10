@@ -4,6 +4,7 @@ import landingImage from "../../public/landing_page_img.png";
 import Image from "next/image.js";
 import Link from "next/link.js";
 import Head from 'next/head';
+import { siteName } from "@/baseObjs.js";
 
 export default function Home() {
   const features = [
@@ -12,10 +13,10 @@ export default function Home() {
         <svg
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="w-10 h-10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          className="w-10 h-10"
           viewBox="0 0 24 24"
         >
           <path d="M11 14H6a2 2 0 01-2-2V4a2 2 0 012-2h5a2 2 0 012 2v8a2 2 0 01-2 2zM20 14h-5a2 2 0 01-2-2V4a2 2 0 012-2h5a2 2 0 012 2v8a2 2 0 01-2 2z"></path>
@@ -33,10 +34,10 @@ export default function Home() {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-moon w-10 h-10 "
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="feather feather-moon w-10 h-10 "
         >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
@@ -50,10 +51,10 @@ export default function Home() {
         <svg
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          class="w-10 h-10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          className="w-10 h-10"
           viewBox="0 0 24 24"
         >
           <path d="M12 8v8M16 12l-4-4-4 4M4 15v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path>
@@ -94,11 +95,13 @@ export default function Home() {
               <Link href="/login" className="ml-4 inline-flex text-gray-700 bg-gray-100 dark:text-gray-400 dark:bg-gray-800 border-0 py-2 px-6 focus:outline-none dark:hover:bg-gray-700 dark:hover:text-white rounded hover:bg-gray-200 text-lg">
                 Login
               </Link>
+              <div className="w-10 h-10 bg-qwe-100"></div>
 
             </div>
           </div>
           <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
             <Image
+              alt="Start using chatterbox to chat with anyone on chatterbox!"
               src={landingImage}
               width={720}
               height={600}
@@ -126,7 +129,7 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
             {features.map((feature, key) => (
-              <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+              <div className="p-4 md:w-1/3 flex flex-col text-center items-center" key={key}>
                 <div className="w-20 h-20 inline-flex items-center justify-center bg-indigo-100 dark:bg-gray-800 rounded-full  text-indigo-400 mb-5 flex-shrink-0">
                   {feature.icon}
                 </div>
@@ -147,14 +150,14 @@ export default function Home() {
               href="/signup"
               className="flex items-center mx-auto mt-16 text-indigo-500 border-0 py-2 px-8 focus:outline-none hover:text-indigo-600 rounded text-lg"
             >
-              Signup to start using ChatterBox{" "}
+              Signup to start using {siteName}
               <svg
                 fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 ml-2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="w-4 h-4 ml-2"
                 viewBox="0 0 24 24"
               >
                 <path d="M5 12h14M12 5l7 7-7 7"></path>

@@ -6,13 +6,12 @@ import { AppContext } from "@/AppContext";
 import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "@/baseObjs";
+import Alert from "../alert";
 
 export default function Received() {
-  const { user, authToken, loading, loadingComplete, axiosRequest,headers } =
+  const { user, authToken, loading, loadingComplete, axiosRequest, headers } =
     useContext(AppContext);
   const [receivedRequests, setReceivedRequests] = useState([]);
-
-  
 
   // A Function that removes accepted/declined request from received requests.
   const updateUI = (request) =>
@@ -36,9 +35,13 @@ export default function Received() {
 
   const acceptRequest = async (request) => {
     try {
-      const res = await axiosRequest.put(url("/user/connection_request"), {
+      const res = await axiosRequest.put(
+        url("/user/connection_request"),
+        {
           connection_request_id: request.id,
-      }, {headers});
+        },
+        { headers }
+      );
       updateUI(request);
     } catch (error) {
       alert("Unable to accept connection requests" + JSON.stringify(headers));
@@ -47,10 +50,14 @@ export default function Received() {
 
   const declineRequest = async (request) => {
     try {
-      const res = await axiosRequest.delete(url("/user/connection_request"), {
+      const res = await axiosRequest.delete(
+        url("/user/connection_request"),
+        {
           connection_request_id: request.id,
-      }, {headers});
-      
+        },
+        { headers }
+      );
+
       updateUI(request);
     } catch (error) {
       alert("Unable to decline connection requests");
@@ -96,6 +103,12 @@ export default function Received() {
               </div>
             );
           })}
+
+          {receivedRequests.length === 0 && (
+            <Alert type="info" cls="md:mx-10">
+              Oops! you don't have any received connection requests yet!!!
+            </Alert>
+          )}
         </div>
       </section>
     </AuthRequired>

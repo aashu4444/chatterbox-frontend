@@ -1,11 +1,11 @@
 import { AppContext } from "@/AppContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Navbar from "./Navbar";
-import axios from "axios";
-import { url } from "@/baseObjs";
 
 export default function AuthRequired(props) {
   const {user} = useContext(AppContext);
+  
+  
   return user === null ? (
     // If user is not logged in
     <>

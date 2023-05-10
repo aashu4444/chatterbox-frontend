@@ -27,7 +27,7 @@ function Search({
     "auth-token": authToken,
   };
 
-  const {axiosRequest} = useContext(AppContext);
+  const { axiosRequest, cancelConnectionRequest } = useContext(AppContext);
 
   const [userQuery, setUserQuery] = useState(query);
   const [SentConnectionRequests, setSentConnectionRequests] = useState(
@@ -39,27 +39,18 @@ function Search({
     const payload = new FormData();
     payload.set("receiver_id", receiverId);
 
-    const res = await axiosRequest.post(url(`/user/connection_request`), payload, {
-      headers,
-    });
+    const res = await axiosRequest.post(
+      url(`/user/connection_request`),
+      payload,
+      {
+        headers,
+      }
+    );
 
     setSentConnectionRequests((latest) => [...latest, res.data]);
   };
 
-  const cancelConnectionRequest = async ConnectionRequest => {
-    const res = await axiosRequest.options(url(`/user/connection_request`), {
-      data:{
-        request_id: ConnectionRequest.id
-      },
-      headers
-    });
-
-
-    setSentConnectionRequests((latest) => latest.filter(item => item.id !== ConnectionRequest.id));
-  }
-
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <AuthRequiredServer>
@@ -118,12 +109,36 @@ function Search({
                 >
                   <FontAwesomeIcon icon={faUserPlus} />
                 </button>
+              ) : foundUser.connected_profiles.includes(user.id) ? (
+                <button
+                  className="btn w-14 rounded-lg h-full ml-3"
+                  onClick={(e) =>
+                    cancelConnectionRequest(
+                      SentConnectionRequests.filter(
+                        (item) => item.receiver.id === foundUser.id
+                      )[0]
+                    , setSentRequests)
+                  }
+                >
+                  <FontAwesomeIcon icon={faCheck} /> Already friends!
+                </button>
               ) : (
-                <button className="btn w-14 rounded-lg h-full ml-3" onClick={e => cancelConnectionRequest(SentConnectionRequests.filter(item => item.receiver.id === foundUser.id)[0])}>
+                <button
+                  className="btn w-14 rounded-lg h-full ml-3"
+                  onClick={(e) =>
+                    cancelConnectionRequest(
+                      SentConnectionRequests.filter(
+                        (item) => item.receiver.id === foundUser.id
+                      )[0]
+                    ) &&
+                    setSentConnectionRequests((latest) =>
+                      latest.filter((item) => item.id !== ConnectionRequest.id)
+                    )
+                  }
+                >
                   <FontAwesomeIcon icon={faCheck} />
-                  </button>
+                </button>
               )}
-              
             </div>
           ))}
         </div>

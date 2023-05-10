@@ -1,7 +1,7 @@
 import axios, { Axios } from "axios";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { url } from "./baseObjs";
+import { socketUrl, url } from "./baseObjs";
 import Cookies from "js-cookie";
 
 export const AppContext = createContext();
@@ -9,15 +9,42 @@ export const AppContext = createContext();
 export function AppWrapper(props) {
   const router = useRouter();
   const axiosRequest = axios.create();
+
   const [infoTitle, setInfoTitle] = useState("Unexpected Error Occured!");
-  const [infoDesc, setInfoDesc] = useState("We encountered an error in this application. Make sure you filled everything correct or not did any action against the rules of this app!");
+  const [infoDesc, setInfoDesc] = useState(
+    "We encountered an error in this application. Make sure you filled everything correct or not did any action against the rules of this app!"
+  );
   const [barRef, setBarRef] = useState(useRef(null));
   const [user, setUser] = useState(null);
   const [authToken, setJwtToken] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
-  
+
+  const authorizedAxiosRequest = axios.create({
+    headers: {
+      "auth-token": authToken,
+    },
+  });
+
+  const cancelConnectionRequest = async (connection_request, setRequests=undefined) => {
+    const res = await axiosRequest.options(url("/user/connection_request"), {
+      data: {
+        request_id: connection_request.id,
+      },
+
+      headers: {
+        "auth-token": authToken,
+      },
+    });
+
+    if (setRequests){
+      setRequests((recent) =>
+        recent.filter((req) => req.id !== connection_request.id)
+      );
+    }
+  };
+
   const [currentChatDetails, setCurrentChatDetails] = useState({
-    name: "Ashutosh Prajapati",
+    name: undefined,
   });
   const headers = {
     "auth-token": authToken,
@@ -49,11 +76,13 @@ export function AppWrapper(props) {
       return response;
     },
     (error) => {
-      if (typeof error.response.data === 'string' && error.response.data.length < 150){
+      if (
+        typeof error.response.data === "string" &&
+        error.response.data.length < 150
+      ) {
         setInfoDesc(error.response.data);
-        console.log(error)
       }
-      
+
       setShowInfo(true);
       loadingComplete();
       return Promise.reject(error);
@@ -65,8 +94,7 @@ export function AppWrapper(props) {
     setJwtToken(token);
   };
 
-  const validateUser = async (token=authToken) => {
-    console.log("Validating...\nauth token : " + token)
+  const validateUser = async (token = authToken) => {
     // Validate the user from server
     if (
       token !== "null" &&
@@ -80,11 +108,10 @@ export function AppWrapper(props) {
             "auth-token": token,
           },
         });
-
         setUser(user_res.data);
       } catch (error) {
         // If user verification is failed
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           // Code something if user is not logged in.
           setUser(null);
         }
@@ -108,25 +135,34 @@ export function AppWrapper(props) {
     setCurrentChatDetails,
     axiosRequest,
     headers,
-    infoTitle, setInfoTitle,
-    infoDesc, setInfoDesc,
-    showInfo, setShowInfo,
+    infoTitle,
+    setInfoTitle,
+    infoDesc,
+    setInfoDesc,
+    showInfo,
+    setShowInfo,
+    authorizedAxiosRequest,
+    cancelConnectionRequest,
   };
 
   useEffect(() => {
     // Get auth token from cookies
-    const fetchedAuthToken = document.cookie.slice("auth_token".length + 1)
+    let fetchedAuthToken = document.cookie.slice("auth_token".length + 1);
+    if (fetchedAuthToken.indexOf(";") !== -1) {
+      fetchedAuthToken = fetchedAuthToken.slice(
+        0,
+        fetchedAuthToken.indexOf(";")
+      );
+    }
     setAuthToken(fetchedAuthToken);
-    console.log("Auth token in useEffect : " + authToken)
-    console.log(`Auth token after fetching : ${fetchedAuthToken}`)
 
     const handleRouterChangeStart = (url) => {
-      barRef && barRef.current.continuousStart();
+      barRef && barRef.current?.continuousStart();
     };
 
     router.events.on("routeChangeStart", handleRouterChangeStart);
     router.events.on("routeChangeComplete", (url) => {
-      barRef.current.complete();
+      barRef.current?.complete();
     });
 
     // Check whether the user is logged in or not when the page loads

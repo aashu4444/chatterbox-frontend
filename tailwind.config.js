@@ -8,7 +8,13 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      background: {
+        qwe: {
+          100: '#c71585'
+        }
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

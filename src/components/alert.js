@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faTriangleExclamation, faCircleCheck, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 const Alert = ({ type, cls, children }) => {
 
@@ -14,6 +14,11 @@ const Alert = ({ type, cls, children }) => {
             iconColor: 'bg-emerald-500',
             msgColor: 'bg-emerald-600',
             icon: faCircleCheck,
+        },
+        info: {
+            iconColor: 'bg-yellow-500',
+            msgColor: 'bg-yellow-600',
+            icon: faCircleInfo,
         },
 
     }

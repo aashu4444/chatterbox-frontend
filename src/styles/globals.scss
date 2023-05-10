@@ -48,3 +48,58 @@
 .input{
     @apply dark:bg-gray-800/50  dark:outline-none dark:border-none dark:text-white;
 }
+
+
+div.skeleton{
+    position : relative;
+
+    &::after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20%;
+        height: 100%;
+        animation: animateSkeleton 1s infinite;
+        
+        @apply bg-gradient-to-r from-transparent via-gray-900/50 to-transparent
+
+    }
+}
+
+@keyframes animateSkeleton{
+    0%{
+        left: -10%;
+    }
+
+    50%{
+        left: 85%;
+    }
+
+    100%{
+        left: -10%;
+    }
+}
+
+// Styles for 'dropdown'
+.dropdown{
+    @apply relative;
+
+    .trigger{
+        @apply relative;
+        &::after{
+            content: '';
+            @apply absolute w-5 h-5 rotate-180;
+        }
+        &:focus ~ .dropdown-items{
+            @apply scale-100;
+        }
+    }
+    .dropdown-items{
+        @apply scale-0 absolute origin-top-right -bottom-16 right-0 transition-all;
+
+        .dropdown-item{
+            @apply dark:bg-gray-800 p-3 dark:hover:bg-gray-700 w-64 ;
+        }
+    }
+}

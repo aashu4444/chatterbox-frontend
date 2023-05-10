@@ -7,13 +7,15 @@ import {
   faSun,
   faRightToBracket,
   faMagnifyingGlass,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import LoadingBar from "react-top-loading-bar";
 import { AppContext } from "@/AppContext";
 import { ValidateUser } from "./AuthRequiredServer";
-import Logo from '../../public/Logo.png';
+import Logo from "../../public/Logo.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Dropdown from "./dropdown";
 
 function Navbar({ name }) {
   const router = useRouter();
@@ -24,7 +26,7 @@ function Navbar({ name }) {
   const anonymousNavLinks = [
     { href: "/", text: "Home" },
     { href: "/anonymous_chat", text: "Anonymous Chat" },
-  ]
+  ];
 
   const authenticated_navLink = [
     { href: "/search", text: "Search" },
@@ -33,8 +35,6 @@ function Navbar({ name }) {
   ];
 
   const [navLinks, setNavlinks] = useState([...anonymousNavLinks]);
-
-  
 
   function toggleDarkMode(e) {
     if (theme === "dark") {
@@ -49,9 +49,8 @@ function Navbar({ name }) {
 
     // Push authenticated nav links in 'navLinks' Array
     if (user !== null && user !== "") {
-      setNavlinks([...anonymousNavLinks, ...authenticated_navLink])
+      setNavlinks([...anonymousNavLinks, ...authenticated_navLink]);
     }
-    console.log(user)
   }, [user]);
   return (
     <>
@@ -63,44 +62,53 @@ function Navbar({ name }) {
             <span className="ml-3 text-xl dark:text-white">Chatterbox</span>
           </a>
 
-          <div className="w-10 h-auto flex flex-col gap-y-2 cursor-pointer md:hidden">
-            <div className="bg-white w-full h-1"></div>
-            <div className="bg-white w-full h-1"></div>
-            <div className="bg-white w-full h-1"></div>
-          </div>
-          <nav className="md:ml-auto md:flex flex-wrap items-center text-base justify-center hidden ">
-            {navLinks.map((navLink, key) => (
-              <Link
-                href={navLink.href}
-                key={key}
-                className="mr-5 opacity-60 hover:opacity-100 smooth"
-              >
-                {navLink.text}
-              </Link>
-            ))}
-          </nav>
-          {user === null ? (
-            <div className="hidden md:block">
-              <Link
-                href="/login"
-                className="smooth inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-gray-900 dark:hover:bg-gray-800"
-              >
-                Login &nbsp;
-                <FontAwesomeIcon icon={faRightToBracket} />
-              </Link>
-              <Link
-                href="/signup"
-                className="smooth inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-gray-900 dark:hover:bg-gray-800 md:ml-2"
-              >
-                Sign up
-              </Link>
-            </div>
-          ) : (
-            // If user is logged in
-            <Link href="/logout" className="cursor-pointer">
-              {user.first_name}
-            </Link>
-          )}
+            <button className="w-10 h-auto flex flex-col gap-y-2 cursor-pointer md:hidden peer">
+              <div className="bg-white w-full h-1"></div>
+              <div className="bg-white w-full h-1"></div>
+              <div className="bg-white w-full h-1"></div>
+            </button>
+            <nav className="md:ml-auto md:flex flex-wrap items-center text-base justify-center mt-4 mb-1 md:m-0 h-0 overflow-hidden peer-focus:h-20 transition-all">
+              {navLinks.map((navLink, key) => (
+                <Link
+                  href={navLink.href}
+                  key={key}
+                  className="mr-5 opacity-60 hover:opacity-100 smooth"
+                >
+                  {navLink.text}
+                </Link>
+              ))}
+
+              {user === null ? (
+                <div className="hidden md:block">
+                  <Link
+                    href="/login"
+                    className="smooth inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-gray-900 dark:hover:bg-gray-800"
+                  >
+                    Login &nbsp;
+                    <FontAwesomeIcon icon={faRightToBracket} />
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="smooth inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 dark:bg-gray-900 dark:hover:bg-gray-800 md:ml-2"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              ) : (
+                // If user is logged in
+                <div className="dropdown">
+                  <button className="trigger">{user.first_name}</button>
+                  <ul className="dropdown-items">
+                    <Link href="/logout" className="cursor-pointer">
+                      <li className="dropdown-item">
+                        <FontAwesomeIcon icon={faSignOut} /> Logout
+                      </li>
+                    </Link>
+                  </ul>
+                </div>
+              )}
+            </nav>
+
           <div
             className="w-24 smooth dark-btn-bg h-10 rounded-full bg-blue-500 my-3 mx-3 relative px-2 cursor-pointer  md:flex items-center justify-between hidden dark:bg-gray-800/30"
             onClick={toggleDarkMode}

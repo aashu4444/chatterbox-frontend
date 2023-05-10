@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export function url(str){return `http://127.0.0.1:8000${str}`};
 
+export const socketUrl = roomName => `ws://127.0.0.1:8000/ws/message/${roomName}/`;
 
 export function handleScreenSizeChange(setSmallDevice){
     const handleScreenChange = mediaObj => {

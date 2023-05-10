@@ -26,7 +26,6 @@ export default function Login() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data);
 
       // Set auth token cookie
       document.cookie = `auth_token=${res.data}`;
@@ -43,7 +42,6 @@ export default function Login() {
       router.push("/");
     } catch (error) {
       setInvalidCreds(true);
-      console.log(error);
     }
 
     loadingComplete();
