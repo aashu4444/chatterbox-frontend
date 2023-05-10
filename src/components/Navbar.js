@@ -67,7 +67,7 @@ function Navbar({ name }) {
               <div className="bg-white w-full h-1"></div>
               <div className="bg-white w-full h-1"></div>
             </button>
-            <nav className="md:ml-auto md:flex flex-wrap items-center text-base justify-center mt-4 mb-1 md:m-0 h-0 overflow-hidden peer-focus:h-20 transition-all">
+            <nav className="md:ml-auto md:flex flex-wrap items-center text-base justify-center mt-4 mb-1 md:m-0 h-0 md:h-auto overflow-hidden peer-focus:h-20 transition-all">
               {navLinks.map((navLink, key) => (
                 <Link
                   href={navLink.href}
