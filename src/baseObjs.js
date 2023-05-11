@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export function url(str){return `http://54.221.52.177${str}`};
+export function url(str){return `http://54.208.103.250${str}`};
 
-export const socketUrl = roomName => `ws://54.221.52.177/ws/message/${roomName}/`;
+export const socketUrl = roomName => `ws://54.208.103.250/ws/message/${roomName}/`;
 
 export function handleScreenSizeChange(setSmallDevice){
     const handleScreenChange = mediaObj => {
