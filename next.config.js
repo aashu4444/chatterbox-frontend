@@ -4,7 +4,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '',
+        source: '/:path*',
         destination: 'http://54.91.94.172/:path*', // Proxy to Backend
       },
     ]
