@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
+  async rewrites() {
+    return [
+      {
+        source: '',
+        destination: 'http://54.91.94.172/:path*', // Proxy to Backend
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
