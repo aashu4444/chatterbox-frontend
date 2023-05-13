@@ -82,24 +82,46 @@ div.skeleton{
 }
 
 // Styles for 'dropdown'
-.dropdown{
-    @apply relative;
+@mixin dropdown{
+    position: relative;
+    overflow: visible;
+    height: auto;
 
-    .trigger{
-        @apply relative;
-        &::after{
-            content: '';
-            @apply absolute w-5 h-5 rotate-180;
-        }
-        &:focus ~ .dropdown-items{
-            @apply scale-100;
-        }
+    label[for=dropdown-trigger]{
+        cursor: pointer;
+    }
+
+    .dropdown-trigger{
+        display: none;
+    }
+
+    .dropdown-trigger:checked ~ .dropdown-items{
+        @apply scale-100;
     }
     .dropdown-items{
-        @apply scale-0 absolute origin-top-right -bottom-16 right-0 transition-all;
+        @apply absolute md:-bottom-14 right-0 rounded-md origin-top-right w-64 scale-0 transition-all;
 
         .dropdown-item{
-            @apply dark:bg-gray-800 p-3 dark:hover:bg-gray-700 w-64 ;
+            @apply dark:bg-gray-800 p-3 dark:hover:bg-gray-700 transition-all ;
+        }
+    }
+}
+
+.dropdown{
+    @include dropdown;
+}
+
+@media (max-width: 768px){
+    .dropdown[data-nav=true]{
+        overflow: hidden;
+        .dropdown-items{
+            all: inherit;
+            list-style-type: none;
+            height: 0;
+        }
+
+        .dropdown-trigger:checked ~ .dropdown-items{
+            height: 100%;
         }
     }
 }
