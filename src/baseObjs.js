@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function url(str){return `${process.env.NEXT_PUBLIC_PROTOCOL}://${process.env.NEXT_PUBLIC_HOST}${str}`};
 
-export const socketUrl = roomName => `ws://${process.env.NEXT_PUBLIC_HOST}/ws/message/${roomName}/`;
+export const socketUrl = roomName => `${process.env.NEXT_PUBLIC_SOCKET_PROTOCOL}://${process.env.NEXT_PUBLIC_HOST}/ws/message/${roomName}/`;
 
 export function handleScreenSizeChange(setSmallDevice){
     const handleScreenChange = mediaObj => {
