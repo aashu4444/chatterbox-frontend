@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function url(str){return `http://${process.env.NEXT_PUBLIC_HOST}${str}`};
+export function url(str){return `${process.env.NEXT_PUBLIC_PROTOCOL}://${process.env.NEXT_PUBLIC_HOST}${str}`};
 
 export const socketUrl = roomName => `ws://${process.env.NEXT_PUBLIC_HOST}/ws/message/${roomName}/`;
 
