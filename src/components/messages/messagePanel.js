@@ -14,7 +14,6 @@ import Attach from "./Attach";
 import Attachments from "./Attachments";
 import AuthRequired from "../AuthRequired";
 import Message from "./Message";
-import useSWR from 'swr';
 
 export default function MessagePanel({ receiver_id, isAnonymous = false }) {
   const { user, authToken, currentChatDetails, authorizedAxiosRequest, setCurrentChatDetails } = useContext(AppContext);
@@ -29,7 +28,7 @@ export default function MessagePanel({ receiver_id, isAnonymous = false }) {
   const [userStatus, setUserStatus] = useState("Some Dummy status");
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/message/${roomName}/`);
+    const socket = new WebSocket(socketUrl(roomName));
 
     // Check status of the target user
     websocket?.send(
